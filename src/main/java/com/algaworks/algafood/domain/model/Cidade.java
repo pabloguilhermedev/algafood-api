@@ -15,7 +15,7 @@ public class Cidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome_cidade")
+    @Column(name = "nome_cidade", nullable = false)
     private String nome;
 
     @ManyToOne

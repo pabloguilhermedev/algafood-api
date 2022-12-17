@@ -3,10 +3,7 @@ package com.algaworks.algafood.domain.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
@@ -18,5 +15,9 @@ public class Permissao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String descricao;
+
+    @Column(nullable = false)
+    private String nome;
 }
