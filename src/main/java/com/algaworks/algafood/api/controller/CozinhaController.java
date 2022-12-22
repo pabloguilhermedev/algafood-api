@@ -68,7 +68,7 @@ public class CozinhaController {
             (@PathVariable Long id){
         try {
             cadastroCozinhaService.excluir(id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok().build();
 
         }catch (EntidadeNaoEncontradaException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
