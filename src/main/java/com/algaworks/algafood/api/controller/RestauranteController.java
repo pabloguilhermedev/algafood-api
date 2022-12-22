@@ -3,9 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
-import com.algaworks.algafood.domain.service.CadastroCozinhaService;
-import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-import org.apache.coyote.Response;
+import com.algaworks.algafood.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +20,7 @@ public class RestauranteController {
     private RestauranteRepository restauranteRepository;
 
     @Autowired
-    private CadastroRestauranteService cadastroRestauranteService;
+    private RestauranteService restauranteService;
 
     @GetMapping
     public List<Restaurante> listar(){
@@ -45,7 +43,7 @@ public class RestauranteController {
             (@RequestBody Restaurante restaurante){
 
         try{
-            cadastroRestauranteService.salvar(restaurante);
+            restauranteService.salvar(restaurante);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
 
@@ -64,7 +62,7 @@ public class RestauranteController {
         BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
 
         try {
-            cadastroRestauranteService.salvar(restauranteAtual);
+            restauranteService.salvar(restauranteAtual);
 
             return ResponseEntity.ok(restauranteAtual);
 

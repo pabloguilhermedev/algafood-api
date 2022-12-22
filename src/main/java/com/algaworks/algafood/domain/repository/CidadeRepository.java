@@ -9,5 +9,5 @@ public interface CidadeRepository {
     List<Cidade> listarTodasAsCidades();
     Cidade buscarCidade(Long id);
     Cidade salvarCidade(Cidade cidade);
-    void removerCidade(Cidade cidade);
+    void removerCidade(Long id);
 }

@@ -2,6 +2,7 @@ package com.algaworks.algafood.infrastructure.repository;
 
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -34,8 +35,13 @@ public class EstadoRepositoryImpl implements EstadoRepository {
 
     @Transactional
     @Override
-    public void removerEstado(Estado estado){
-        estado = buscarEstado(estado.getId());
+    public void removerEstado(Long id){
+        Estado estado = buscarEstado(id);
+
+        if(estado == null){
+            throw new EmptyResultDataAccessException(1);
+        }
+
         manager.remove(estado);
     }
 }
