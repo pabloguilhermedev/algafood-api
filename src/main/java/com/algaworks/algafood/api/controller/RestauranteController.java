@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -25,16 +25,16 @@ public class RestauranteController {
 
     @GetMapping
     public List<Restaurante> listar() {
-        return restauranteRepository.listar();
+        return restauranteRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Restaurante> buscar(@PathVariable Long id) {
 
-        Restaurante restaurante = restauranteRepository.buscar(id);
+        Optional<Restaurante> restaurante = restauranteRepository.findById(id);
 
-        if (restaurante != null) {
-            return ResponseEntity.ok(restaurante);
+        if (restaurante.isPresent()) {
+            return ResponseEntity.ok(restaurante.get());
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -44,7 +44,7 @@ public class RestauranteController {
             (@RequestBody Restaurante restaurante) {
 
         try {
-            restauranteService.salvar(restaurante);
+            restauranteService.salvar(Optional.ofNullable(restaurante));
 
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
 
@@ -60,13 +60,13 @@ public class RestauranteController {
 
         try {
 
-            Restaurante restauranteAtual = restauranteRepository.buscar(id);
+            Optional<Restaurante> restauranteAtual = restauranteRepository.findById(id);
 
-            if (restauranteAtual != null) {
+            if (restauranteAtual.isPresent()) {
                 BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
 
                 restauranteService.salvar(restauranteAtual);
-                return ResponseEntity.ok(restauranteAtual);
+                return ResponseEntity.ok(restauranteAtual.get());
             }
 
             return ResponseEntity.notFound().build();

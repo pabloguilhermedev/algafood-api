@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/estados", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -25,17 +26,17 @@ public class EstadoController {
 
     @GetMapping
     public List<Estado> listar(){
-        return estadoRepository.listarTodosOsEstados();
+        return estadoRepository.findAll();
     }
 
     @GetMapping("{id}")
-    public Estado listarById(@PathVariable Long id){
-        return estadoRepository.buscarEstado(id);
+    public Optional<Estado> listarById(@PathVariable Long id){
+        return estadoRepository.findById(id);
     }
 
     @PostMapping
     public ResponseEntity<Estado> salvar(@RequestBody Estado estado){
-        estadoRepository.salvarEstado(estado);
+        estadoRepository.save(estado);
 
         return ResponseEntity.ok().body(estado);
     }
